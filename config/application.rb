@@ -18,6 +18,11 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Load .env file in development and test environments
+if Rails.env.development? || Rails.env.test?
+  Dotenv::Railtie.load
+end
+
 module Afrobounce
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
