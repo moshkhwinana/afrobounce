@@ -7,7 +7,7 @@ class ContactMessagesController < ApplicationController
     @contact_message = ContactMessage.new(contact_message_params)
     if @contact_message.save
       ContactMailer.send_contact_message(@contact_message).deliver_now
-      redirect_to contact_path, notice: 'Message sent!'
+      redirect_to new_contact_message_path, notice: 'Message sent!'
     else
       flash.now[:alert] = 'Please complete your submission' # OR redirect_to contact_path, alert: "There was an issue with your submission."
       render :new, status: :unprocessable_entitiy
