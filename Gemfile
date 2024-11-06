@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
+gem 'gibbon'
+
 gem "bootstrap", "~> 5.2"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
