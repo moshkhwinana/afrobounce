@@ -6,11 +6,15 @@ class MailchimpService
     @list_id = ENV['MAILCHIMP_ID']
   end
 
-  def subscribe(email)
+  def subscribe(email, name, surname)
     @gibbon.lists(@list_id).members.create(
       body: {
         email_address: email,
-        status: "subscribed"
+        status: 'subscribed',
+        merge_fields: {
+          FNAME: name,
+          LNAME: surname
+        }
       }
     )
   rescue Gibbon::MailChimpError => e # executed if there is an error
@@ -21,7 +25,7 @@ class MailchimpService
     hashed_email = Digest::MD5.hexdigest(email.downcase) # converts email to lowercase and places them into a hash to perform actions
     @gibbon.lists(@list_id).members(hashed_email).update(
       body: {
-        status: "unsubscribed"
+        status: 'unsubscribed'
       }
     )
   rescue Gibbon::MailChimpError => e

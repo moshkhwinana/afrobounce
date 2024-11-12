@@ -10,5 +10,14 @@
       <%= link_to "Contact Us", new_contact_message_path  %>
     </div>
 
+    <div class="newsletter-card">
+      <%= simple_form_for :subscriber, url: subscribe_path, data: { turbo: false } do |f| %>
+        <%= f.input :name, label: "Name" %>
+        <%= f.input :surname, label: "Surname" %>
+        <%= f.input :email, label: "Email" %>
+        <%= f.button :submit, "Sign up" %>
+      <% end %>
+    </div>
+
   </div>
 </div>

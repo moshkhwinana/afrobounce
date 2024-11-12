@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'tickets', to: redirect('https://webtickets.com')
   resources :contact_messages, only: %i[new create] # [:new, :create]
-  post 'subscribe', to: 'subscibers#create' # resources :subscribe, only: [:create] can also be used instead
+  post 'subscribe', to: 'subscribers#create' # resources :subscribe, only: [:create] can also be used instead
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
