@@ -9,11 +9,11 @@
 -->
 <%= simple_form_for @contact_message, url: contact_messages_path, method: :post do |f| %>
   <div class="form-group">  <!--for styling-->
-    <%= f.input :name, label: "Your Name", input_html: { class: "form-control" } %>
+    <%= f.input :name, label: "Name", input_html: { class: "form-control" } %>
   </div>
 
   <div class="form-group">
-    <%= f.input :email, label: "Your Email", input_html: { class: "form-control" }, as: :email %>
+    <%= f.input :email, label: "Email", input_html: { class: "form-control" }, as: :email %>
   </div>
 
   <div class="form-group">
