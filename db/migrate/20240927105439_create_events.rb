@@ -3,7 +3,7 @@ class CreateEvents < ActiveRecord::Migration[7.1]
     create_table :events do |t|
       t.string :name
       t.text :description
-      t.string :quicket_link
+      t.string :webticket_link
 
       t.timestamps
     end

@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
   root to: 'pages#home'
   get 'about', to: 'pages#about'
-  get 'tickets', to: redirect('https://quicket.com')
+  get 'tickets', to: redirect('https://webtickets.com')
   resources :contact_messages, only: %i[new create] # [:new, :create]
-  resources :subscribers, only: [:create] # post 'subscriber', to: 'subsciber#create' can also be used instead
+  resources :subscribers, only: [:create] do # post 'subscriber', to: 'subsciber#create' can also be used instead
+    member do
+      get :unsubscribe
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
