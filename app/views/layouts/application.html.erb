@@ -12,9 +12,9 @@
 
   <body>
     <% flash.each do |type, message| %>
-      <div class="alert alert-<%= type %>"><%= messsage %></div>
+      <div class="alert alert-<%= type %>"><%= message %></div>
     <% end %>
-    
-    <%= yield %>
+
+    <%= yield %>  <!--allows this message to render as part of the page-->
   </body>
 </html>
