@@ -4,6 +4,10 @@ ruby "3.1.2"
 
 gem 'gibbon'
 
+gem "image_processing", ">= 1.2"
+
+gem "activestorage"
+
 gem "bootstrap", "~> 5.2"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
