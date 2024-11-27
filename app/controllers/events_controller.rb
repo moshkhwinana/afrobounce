@@ -1,8 +1,6 @@
-class ImagesController < ApplicationController
+class EventsController < ApplicationController
   before_action :authenticate_admin, except: [:index, :show]
-
   def index
-    @images = Image.all
   end
 
   def show
@@ -12,6 +10,12 @@ class ImagesController < ApplicationController
   end
 
   def create
+  end
+
+  def edit
+  end
+
+  def update
   end
 
   def destroy
