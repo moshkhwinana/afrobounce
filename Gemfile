@@ -8,6 +8,8 @@ gem "image_processing", ">= 1.2"
 
 gem "activestorage"
 
+gem "devise"
+
 gem "bootstrap", "~> 5.2"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"

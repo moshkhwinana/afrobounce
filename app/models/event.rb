@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  validates :name, :description, presence: true
+  validates :name, :date, presence: true
   has_many :images, dependent: :destroy
 end
 

@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
     authenticate_or_request_with_http_basic('Admin Access') do |username, password|
       username == ENV['ADMIN_USERNAME'] && password == ENV['ADMIN_PASSWORD']
     end
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
   end
 
   def admin_area?
