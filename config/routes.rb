@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admins
   root to: 'pages#home'
   get 'about', to: 'pages#about'
   get 'tickets', to: redirect('https://webtickets.com')
@@ -7,6 +8,8 @@ Rails.application.routes.draw do
 
   resources :events, only: %i[index show new create edit update destroy] do
     resources :images, only: %i[index show new create destroy]
+
+  
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
