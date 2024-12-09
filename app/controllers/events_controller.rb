@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_admin, except: [:index, :show] # categories of images from the events
+  before_action :authenticate_admin!, except: %i[index show] # categories of images from the events
   def index
     @events = Event.all
   end

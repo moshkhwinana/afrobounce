@@ -2,9 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_admin, if: :admin_area?
 
   def authenticate_admin
-    authenticate_or_request_with_http_basic('Admin Access') do |email, password|
-      email == ENV['ADMIN_EMAIL'] && password == ENV['ADMIN_PASSWORD']
-    end
+    redirect_to new_admin_session_path unless admin_signed_in? && current_admin.admin?
     # response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     # response.headers['Pragma'] = 'no-cache'
     # response.headers['Expires'] = '0'
@@ -12,5 +10,9 @@ class ApplicationController < ActionController::Base
 
   def admin_area?
     controller_name == 'events' || controller_name == 'images'
+  end
+
+  def after_sign_in_for(resource) #the resource lets you access the logged-in user's data to determine the appropriate behaviour
+    admin_signed_in? ? new_event_path : super
   end
 end
