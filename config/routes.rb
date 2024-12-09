@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   resources :events, only: %i[index show new create edit update destroy] do
     resources :images, only: %i[index show new create destroy]
 
-  
+    devise_scope :admin do
+      root to: 'events#new'
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

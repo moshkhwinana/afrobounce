@@ -2,12 +2,12 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_admin, if: :admin_area?
 
   def authenticate_admin
-    authenticate_or_request_with_http_basic('Admin Access') do |username, password|
-      username == ENV['ADMIN_USERNAME'] && password == ENV['ADMIN_PASSWORD']
+    authenticate_or_request_with_http_basic('Admin Access') do |email, password|
+      email == ENV['ADMIN_EMAIL'] && password == ENV['ADMIN_PASSWORD']
     end
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '0'
+    # response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    # response.headers['Pragma'] = 'no-cache'
+    # response.headers['Expires'] = '0'
   end
 
   def admin_area?
