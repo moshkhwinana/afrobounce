@@ -11,6 +11,7 @@
     </div>
 
     <div class="newsletter-card">
+      <h3>Sign up for our monthly updates</h3>
       <%= simple_form_for :subscriber, url: subscribe_path, data: { turbo: false } do |f| %>
         <%= f.input :name, label: "Name" %>
         <%= f.input :surname, label: "Surname" %>
@@ -18,6 +19,5 @@
         <%= f.button :submit, "Sign up" %>
       <% end %>
     </div>
-    <%= link_to 'Logout', destroy_admin_session_path, method: :delete %>
   </div>
 </div>
