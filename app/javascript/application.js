@@ -2,11 +2,23 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-document.addEventListener("DOMContentLoaded",() => {
-  const flash = document.querySelector(".alert");
-  if (flash) {
+document.addEventListener("turbo:load",() => {
+  const flashes = document.querySelectorAll(".alert");
+
+  flashes.forEach(flash => {
     setTimeout(() => {
       flash.style.display = "none";
-    }, 3000);
-  }
+    }, 3000); // Adjust time if needed
+  });
 });
+
+
+
+// const flash = document.querySelector(".alert");
+// if (flash) {
+//   setTimeout(() => {
+//     flash.style.display = "none";
+//   }, 3000);
+// }
+// });
+// turbo:load is better to use, rather than DOMContentLoaded (better for non-turbo apps), for turbo apps.
