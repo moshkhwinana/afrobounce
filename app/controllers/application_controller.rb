@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_area?
-    controller_name == 'events' || controller_name == 'images'
+    (controller_name == 'events' && %w[new create edit update destroy].include?(action_name)) ||
+    (controller_name == 'images' && %w[new create edit update destroy].include?(action_name))
   end
 
   def after_sign_in_path_for(resource) #the resource lets you access the logged-in user's data to determine the appropriate behaviour
