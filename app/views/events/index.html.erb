@@ -1,2 +1,12 @@
-<h1>Events#index</h1>
-<p>Find me in app/views/events/index.html.erb</p>
+<div class="events-container">
+  <h1>Gallery</h1>
+  <h3>Capturing you getting lost in the sauce</h3>
+
+  <div class="event-card">
+    <% @events.each do |event| %>
+      <%= image_tag event.image, class: "event-image" %>
+      <% event.name %>
+      <% event.date %>
+    <% end %>
+  </div>
+</div>

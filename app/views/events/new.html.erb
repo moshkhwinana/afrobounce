@@ -1,1 +1,14 @@
-<h1>Create event</h1>
+<div class="events-container">
+  <h1>Gallery</h1>
+  <h3>Capturing you getting lost in the sauce</h3>
+
+  <h5><%= link_to %></h5>
+
+  <div class="event-card">
+    <% @events.each do |event| %>
+      <%= image_tag event.image, class: "event-image" %>
+      <% event.name %>
+      <% event.date %>
+    <% end %>
+  </div>
+</div>
