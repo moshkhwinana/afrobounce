@@ -1,14 +1,21 @@
-<div class="events-container">
-  <h1>Gallery</h1>
-  <h3>Capturing you getting lost in the sauce</h3>
+<div class="form-container">
+  <div class="event-form-card">
+  <%= simple_form_for @event, html: { multipart: true } do |f| %>
+    <div class="form-group">
+      <%= f.input :name, label: "Name", input_html: { class: "form-styling" } %>
+    </div>
 
-  <h5><%= link_to %></h5>
+    <div class="form-group">
+      <%= f.input :date, as: :date, label: "Date", input_html: { class: "form-styling" } %>
+    </div>
 
-  <div class="event-card">
-    <% @events.each do |event| %>
-      <%= image_tag event.image, class: "event-image" %>
-      <% event.name %>
-      <% event.date %>
-    <% end %>
+    <div class="form-group">
+      <%= f.input :image, as: :file, label: "Image", input_html: { class: "form-styling" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.button :submit, "Create Event", class: "btn btn-primary" %>
+    </div>
+  <% end %>
   </div>
 </div>

@@ -5,6 +5,6 @@ class Admin < ApplicationRecord
          :recoverable, :validatable, :timeoutable
 
   def timeout_in
-    10.seconds
+    15.minutes
   end
 end
