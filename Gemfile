@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
+gem 'active_storage_validations'
+
 gem 'gibbon'
 
 gem "image_processing", ">= 1.2"
