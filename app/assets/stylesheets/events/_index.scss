@@ -1,11 +1,18 @@
 .events-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 
-  .event-flex-card {
+  .events-flex-card {
     display: flex;
     flex-wrap: wrap;
     justify-content:space-evenly;
   }
+
+  // .event.flex.card{
+  //   height: 60%;
+  //   width: 40%;
+  // }
 
   .img-div {
     height: 60%;
