@@ -2,7 +2,8 @@ class ImagesController < ApplicationController
   before_action :authenticate_admin!, except: %i[index show]
 
   def index
-    @images = Image.all
+    @event = Event.find(params[:event_id])
+    @images = @event.images
   end
 
   def show

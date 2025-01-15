@@ -1,0 +1,20 @@
+.events-container {
+  align-items: center;
+
+  .event-flex-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+  }
+
+  .img-div {
+    height: 60%;
+    width: 40%;
+    padding-top: 5%;
+  }
+
+  .event-image {
+    height: 70%;
+    width: 100%;
+  }
+}

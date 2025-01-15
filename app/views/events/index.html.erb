@@ -2,13 +2,19 @@
   <h1>Gallery</h1>
   <h3>Capturing you getting lost in the sauce</h3>
 
-  <div class="event-card">
+  <div class="event-flex-card">
     <% @events.each do |event| %>
-      <% if event.image.attached? %>
-        <%= image_tag event.image, class: "event-image" %>
-      <% end %>
-      <p><% event.name %></p>
-      <p><% event.date %></p>
+
+      <div class="img-div">
+        <% if event.image.attached? %>
+          <%= image_tag event.image, class: "event-image" %>
+        <% end %>
+      </div>
+
+      <div class="event-text">
+        <p><% event.name %></p>
+        <p><% event.date %></p>
+      </div>
     <% end %>
   </div>
 </div>
