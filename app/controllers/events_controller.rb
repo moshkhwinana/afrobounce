@@ -11,11 +11,18 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      redirect_to events_path, notice: 'Event created'
+      puts "Event saved successfully: #{@event.inspect}"
     else
-      flash.now[:alert] = 'Event failed to be created'
-      render :new
+      puts "Failed to save: #{@event.errors.full_messages}"
     end
+    # debugger
+    # if @event.save
+    #   redirect_to events_path, notice: 'Event created'
+    # else
+    #   debugger
+    #   flash.now[:alert] = 'Event failed to be created'
+    #   render :new
+    # end
   end
 
   def edit

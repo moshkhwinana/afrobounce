@@ -4,9 +4,11 @@
 
   <div class="event-card">
     <% @events.each do |event| %>
-      <%= image_tag event.image, class: "event-image" %>
-      <% event.name %>
-      <% event.date %>
+      <% if event.image.attached? %>
+        <%= image_tag event.image, class: "event-image" %>
+      <% end %>
+      <p><% event.name %></p>
+      <p><% event.date %></p>
     <% end %>
   </div>
 </div>
