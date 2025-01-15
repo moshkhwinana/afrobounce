@@ -4,7 +4,7 @@
 
   <div class="events-flex-card">
     <% @events.each do |event| %>
-
+    
       <div class="img-div">
         <% if event.image.attached? %>
           <%= image_tag event.image, class: "event-image" %>
