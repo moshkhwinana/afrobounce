@@ -4,19 +4,21 @@
 
   <div class="events-flex-card">
     <% @events.each do |event| %>
-    
-      <div class="img-div">
-        <% if event.image.attached? %>
-          <%= image_tag event.image, class: "event-image" %>
-        <% end %>
-      </div>
 
-      <div class="event-text">
-        <h5><% event.name %></h5>
-        <p><% event.date %></p>
+      <div class="event-card">
+        <div class="img-div">
+          <% if event.cover_image.attached? %>
+            <%= image_tag event.cover_image, class: "event-image", size: "300x200" %>
+          <% end %>
+        </div>
+
+        <div class="event-text">
+          <h5><%= link_to event.name, event_images_path(event) %></h5>
+          <p><%= event.date.strftime("%m/%d/%y") %></p>
+        </div>
       </div>
     <% end %>
   </div>
 </div>
 
-<!--add event card for each event-->
+<!--make event-card link to image index-->
