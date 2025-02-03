@@ -2,6 +2,10 @@
   <h1>Gallery</h1>
   <h3>Capturing you getting lost in the sauce</h3>
 
+  <% if current_admin %>
+    <%= link_to 'Create new event', new_event_path, class: "btn btn-primary"  %>
+  <% end %>
+
   <div class="events-flex-card">
     <% @events.each do |event| %>
 
@@ -16,6 +20,10 @@
           <h5><%= link_to event.name, event_images_path(event) %></h5>
           <p><%= event.date.strftime("%m/%d/%y") %></p>
         </div>
+        <% if current_admin %>
+          <%= link_to 'Edit', edit_event_path(event), class: "btn btn-primary"  %>
+          <%= link_to 'Delete', event_path(event), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        <% end %>
       </div>
     <% end %>
   </div>
