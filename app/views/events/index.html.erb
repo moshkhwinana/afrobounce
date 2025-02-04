@@ -10,7 +10,7 @@
     <% @events.each do |event| %>
 
       <div class="event-card">
-        <div class="img-div">
+        <div class="image-card">
           <% if event.cover_image.attached? %>
             <%= image_tag event.cover_image, class: "event-image", size: "300x200" %>
           <% end %>

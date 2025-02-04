@@ -1,3 +1,15 @@
-<h1>Images#index</h1>
-<p>Find me in app/views/images/index.html.erb</p>
-<%= link_to 'Add images', new_event_image_path, class: "btn btn-primary"  %>
+<div class="images-container">
+  <h1>Images#index</h1>
+
+  <% if current_admin %>
+    <%= link_to 'Add images', new_event_image_path, class: "btn btn-primary"  %>
+  <% end %>
+
+  <% @images.each do |image| %>
+    <div class="image-card">
+      <% if image.file.attached? %>
+        <%= image_tag image.file, class: "image", size: "300x200" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

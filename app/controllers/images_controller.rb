@@ -11,15 +11,18 @@ class ImagesController < ApplicationController
   end
 
   def new
-    @images = @event.images.new
+    @image = @event.images.new
   end
 
   def create
-    @images = @event.images.new(image_params)
-    if @images.save
-      redirect_ to event_images_path, notice: 'Images created'
+    @image = @event.images.new
+    if params[:image] && params[:image][:file]
+      params[:image][:file].each do |file|
+        @event.images.create(file: file) # .create = shortcut for .new + .save
+      end
+      redirect_to event_images(@event), notice: 'Images uploaded'
     else
-      flash.now[:alert] = 'Images creation failed'
+      flash.now[:alert] = 'Images upload failed'
       render :new
     end
   end
