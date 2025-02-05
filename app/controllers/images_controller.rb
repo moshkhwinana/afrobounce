@@ -16,11 +16,13 @@ class ImagesController < ApplicationController
 
   def create
     @image = @event.images.new
-    if params[:image] && params[:image][:file]
+    if params[:image] && params[:image][:file].present?
       params[:image][:file].each do |file|
-        @event.images.create(file: file) # .create = shortcut for .new + .save
+        @event.images.create!.tap do |image| # .tap ensures the image is saved before attaching files - .create = shortcut for .new + .save
+          image.file.attach(file) # correct way to attach files in Active Storage
+        end
       end
-      redirect_to event_images(@event), notice: 'Images uploaded'
+      redirect_to event_images_path(@event), notice: 'Images uploaded'
     else
       flash.now[:alert] = 'Images upload failed'
       render :new

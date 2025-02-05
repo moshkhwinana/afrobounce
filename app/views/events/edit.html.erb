@@ -1,2 +1,21 @@
-<h1>Events#edit</h1>
-<p>Find me in app/views/events/edit.html.erb</p>
+<div class="form-container">
+  <div class="event-form-card">
+  <%= simple_form_for @event, html: { multipart: true } do |f| %>
+    <div class="form-group">
+      <%= f.input :name, label: "Name", input_html: { class: "form-styling" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :date, as: :date, label: "Date", input_html: { class: "form-styling" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :cover_image, as: :file, label: "Image", input_html: { class: "form-styling" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.button :submit, "Create Event", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+  </div>
+</div>
