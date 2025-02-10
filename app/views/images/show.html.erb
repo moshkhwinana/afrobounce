@@ -1,2 +1,8 @@
-<h1>Images#show</h1>
-<p>Find me in app/views/images/show.html.erb</p>
+<!--<div class="image-show-container">-->
+  <div class="image-full">
+    <%= image_tag @image, alt: 'Full-screen Image', class: 'fullscreen-image' %>
+  </div>
+
+  <%= link_to "Download Image", rails_blob_path(@image, disposition: "attachment"), class: "btn btn-primary" %>
+
+<!--</div>-->
