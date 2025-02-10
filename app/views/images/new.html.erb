@@ -2,7 +2,7 @@
 
 <div class="form-container">
   <div class="event-form-card">
-  <%= simple_form_for [@event, @image], url: event_images_path(@event), html: { multipart: true } do |f| %>
+  <%= simple_form_for @event, url: event_images_path(@event), html: { multipart: true }, method: :post do |f| %>
     <div class="form-group">
       <%= f.file_field :file, multiple: true, name: "image[file][]", class: "form-styling" %>
     </div>

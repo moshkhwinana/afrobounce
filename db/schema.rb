@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_30_145608) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_10_125820) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,13 +67,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_30_145608) do
     t.date "date"
   end
 
-  create_table "images", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_images_on_event_id"
-  end
-
   create_table "subscribers", force: :cascade do |t|
     t.string "name"
     t.string "surname"
@@ -84,5 +77,4 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_30_145608) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "images", "events"
 end

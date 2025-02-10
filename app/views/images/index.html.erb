@@ -1,5 +1,5 @@
 <div class="images-container">
-  <h1>Images#index</h1>
+  <h1>Images</h1>
 
   <% if current_admin %>
     <%= link_to 'Add images', new_event_image_path, class: "btn btn-primary"  %>
@@ -7,9 +7,7 @@
 
   <% @images.each do |image| %>
     <div class="image-card">
-      <% if image.file.attached? %>
-        <%= image_tag image.file, class: "image", size: "300x200" %>
-      <% end %>
+      <%= image_tag image, class: "image", size: "300x200" %>
     </div>
   <% end %>
 </div>

@@ -11,27 +11,31 @@ class ImagesController < ApplicationController
   end
 
   def new
-    @image = @event.images.new
+    # No need to initialize an Image object since Active Storage handles
   end
 
   def create
-    @image = @event.images.new
+    # @image = @event.images.new
     if params[:image] && params[:image][:file].present?
-      params[:image][:file].each do |file|
-        @event.images.create!.tap do |image| # .tap ensures the image is saved before attaching files - .create = shortcut for .new + .save
-          image.file.attach(file) # correct way to attach files in Active Storage
+      uploaded_files = params[:image][:file]
+      if uploaded_files.any?
+        uploaded_files.each do |file|
+          @event.images.attach(file)
         end
+        redirect_to event_images_path(@event), notice: 'Images uploaded' # remember that the image index belongs to an event 1d
+      else
+        flash.now[:alert] = 'No valid images selected'
+        render :new, status: :unprocessable_entity
       end
-      redirect_to event_images_path(@event), notice: 'Images uploaded'
     else
-      flash.now[:alert] = 'Images upload failed'
-      render :new
+      flash.now[:alert] = 'Images upload failed' # or 'please select at least 1 image to upload'
+      render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     @image = @event.images.find(params[:id])
-    @image.destroy
+    @image.destroy # change to .purge (active storage delete function)
     redirect_to event_images_path, status: :see_other
   end
 
