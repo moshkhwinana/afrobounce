@@ -34,8 +34,13 @@ class ImagesController < ApplicationController
   end
 
   def destroy
-    @image = @event.images.find(params[:id])
-    @image.destroy # change to .purge (active storage delete function)
+    image = @event.images.find_by(id: params[:id])
+    if image
+      image.purge # .purge = (active storage delete function)
+      flash[:notice] = 'Image deleted'
+    else
+      flash[:alert] = 'Image not found'
+    end
     redirect_to event_images_path, status: :see_other
   end
 

@@ -10,7 +10,7 @@
       <%= link_to event_image_path(@event, image) do %>
         <%= image_tag image, class: "image", size: "300x200" %><span>
       <% end %>
-      <%= link_to 'Delete', event_images_path(@event), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger" %></span>
+      <%= link_to 'Delete', event_image_path(@event, image), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger" %></span>
     </div>
   <% end %>
 </div>
