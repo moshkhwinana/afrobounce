@@ -15,20 +15,24 @@ class ImagesController < ApplicationController
   end
 
   def create
-    # @image = @event.images.new
-    if params[:image] && params[:image][:file].present?
-      uploaded_files = params[:image][:file]
+    logger.debug "Params received: #{params.inspect}" # Debugging
+
+    if params[:event] && params[:event][:images].present?
+      uploaded_files = Array.wrap(params[:event][:images]).reject(&:blank?) # Remove empty strings
+      logger.debug "Files received after filtering: #{uploaded_files.inspect}" # Debugging
+
       if uploaded_files.any?
         uploaded_files.each do |file|
           @event.images.attach(file)
+          logger.debug "Attached file: #{file.respond_to?(:original_filename) ? file.original_filename : 'Unknown file'}" # Avoid error
         end
-        redirect_to event_images_path(@event), notice: 'Images uploaded' # remember that the image index belongs to an event 1d
+        redirect_to event_images_path(@event), notice: 'Images uploaded successfully'
       else
         flash.now[:alert] = 'No valid images selected'
         render :new, status: :unprocessable_entity
       end
     else
-      flash.now[:alert] = 'Images upload failed' # or 'please select at least 1 image to upload'
+      flash.now[:alert] = 'Please select at least one image to upload'
       render :new, status: :unprocessable_entity
     end
   end
@@ -51,6 +55,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:file)
+    params.require(:event).permit(images: [])
   end
 end
