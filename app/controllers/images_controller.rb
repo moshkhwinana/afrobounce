@@ -15,16 +15,13 @@ class ImagesController < ApplicationController
   end
 
   def create
-    logger.debug "Params received: #{params.inspect}" # Debugging
 
     if params[:event] && params[:event][:images].present?
       uploaded_files = Array.wrap(params[:event][:images]).reject(&:blank?) # Remove empty strings
-      logger.debug "Files received after filtering: #{uploaded_files.inspect}" # Debugging
 
       if uploaded_files.any?
         uploaded_files.each do |file|
           @event.images.attach(file)
-          logger.debug "Attached file: #{file.respond_to?(:original_filename) ? file.original_filename : 'Unknown file'}" # Avoid error
         end
         redirect_to event_images_path(@event), notice: 'Images uploaded successfully'
       else

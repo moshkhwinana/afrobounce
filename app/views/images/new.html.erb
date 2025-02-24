@@ -1,10 +1,10 @@
-<p>Upload images</p>
+<h3>Upload images for <%= @event.name %></p>
 
 <div class="form-container">
   <div class="event-form-card">
   <%= simple_form_for @event, url: event_images_path(@event), html: { multipart: true }, method: :post do |f| %>
     <div class="form-group">
-      <%= f.file_field :images, as: :file, input_html: { multiple: true, name: 'event[images][]', class: "form-styling" } %>
+      <%= f.file_field :images, as: :file, input_html: { multiple: true, direct_upload: true, name: 'event[images][]', class: "form-styling" } %>
     </div>
     <div class="form-group">
       <%= f.button :submit, "Upload images", class: "btn btn-primary" %>
@@ -12,3 +12,4 @@
   <% end %>
   </div>
 </div>
+<!---->
