@@ -7,30 +7,36 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @image = @event.images.find(params[:id])
+    image_url = params[:image_url]
+
+    if @event.images.include?(image_url)
+      @image = image_url
+    else
+      flash[:alert] = "Image not found"
+      redirect_to event_images_path(@event)
+    end
   end
+
 
   def new
     # No need to initialize an Image object since Active Storage handles
   end
 
   def create
+    uploaded_files = params[:images] # Multiple file upload
 
-    if params[:event] && params[:event][:images].present?
-      uploaded_files = Array.wrap(params[:event][:images]).reject(&:blank?) # Remove empty strings
-
-      if uploaded_files.any?
-        uploaded_files.each do |file|
-          @event.images.attach(file)
-        end
-        redirect_to event_images_path(@event), notice: 'Images uploaded successfully'
-      else
-        flash.now[:alert] = 'No valid images selected'
-        render :new, status: :unprocessable_entity
+    if uploaded_files.present?
+      uploaded_urls = uploaded_files.map do |file|
+        Cloudinary::Uploader.upload(file)["secure_url"]
       end
+
+      @event.update(images: (@event.images || []) + uploaded_urls)
+
+      flash[:notice] = "Images uploaded successfully!"
+      redirect_to event_images_path(@event)
     else
-      flash.now[:alert] = 'Please select at least one image to upload'
-      render :new, status: :unprocessable_entity
+      flash[:alert] = "No images selected"
+      render :new
     end
   end
 
@@ -48,10 +54,11 @@ class ImagesController < ApplicationController
   private
 
   def event
-    @event = Event.find(params[:event_id])
-  end
+    @event = Event.find_by(id: params[:event_id])
 
-  def image_params
-    params.require(:event).permit(images: [])
+    unless @event
+      flash[:alert] = "Event not found"
+      redirect_to events_path
+    end
   end
 end
