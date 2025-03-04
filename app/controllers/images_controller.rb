@@ -3,7 +3,7 @@ class ImagesController < ApplicationController
   before_action :event
 
   def index
-    @images = @event.images
+    @images = @event.images || [] # Ensure @images is always an array
   end
 
   def show
@@ -23,11 +23,10 @@ class ImagesController < ApplicationController
   end
 
   def create
-    uploaded_files = params[:images] # Get multiple files
+    uploaded_files = params[:event][:images] # Ensure correct param structure
 
     if uploaded_files.present?
-      uploaded_urls = uploaded_files.map do |file|
-        # Upload to Cloudinary with folder structure
+      uploaded_urls = uploaded_files.reject(&:blank?).map do |file| # Filter out blank files
         Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
       end
 
@@ -67,9 +66,9 @@ class ImagesController < ApplicationController
   def event
     @event = Event.find_by(id: params[:event_id])
 
-    unless @event
+    if @event.nil?
       flash[:alert] = "Event not found"
-      redirect_to events_path
+      redirect_to events_path and return
     end
   end
 end
