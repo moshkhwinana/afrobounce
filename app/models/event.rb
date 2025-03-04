@@ -11,6 +11,18 @@ class Event < ApplicationRecord
       end
     end
   end
+  before_destroy :delete_images_from_cloudinary
+
+  private
+
+  def delete_images_from_cloudinary
+    return if images.blank?
+
+    images.each do |image_url|
+      public_id = image_url.split('/').last.split('.').first
+      Cloudinary::Uploader.destroy("afrobounce/events/#{id}/#{public_id}")
+    end
+  end
   # validates :webticket_link, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
 end
 
