@@ -22,14 +22,38 @@ class ImagesController < ApplicationController
     # No need to initialize an Image object since Active Storage handles
   end
 
-  def create
-    uploaded_files = params[:event][:images] # Ensure correct param structure
+  # def create
+  #   uploaded_files = params[:event][:images] # Ensure correct param structure
 
-    if uploaded_files.present?
-      uploaded_urls = uploaded_files.reject(&:blank?).map do |file| # Filter out blank files
-        Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
+  #   if uploaded_files.present?
+  #     uploaded_urls = uploaded_files.reject(&:blank?).map do |file| # Filter out blank files
+  #       Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
+  #     end
+
+  #     @event.update(images: (@event.images || []) + uploaded_urls)
+
+  #     flash[:notice] = "Images uploaded successfully!"
+  #     redirect_to event_images_path(@event)
+  #   else
+  #     flash[:alert] = "No images selected"
+  #     render :new
+  #   end
+  # end
+
+  def create
+    uploaded_files = params[:event][:images] || [] # Ensure it's an array
+
+    if uploaded_files.any?
+      uploaded_urls = [] # Initialize an empty array to store URLs
+
+      uploaded_files.each do |file|
+        next if file.blank? # Skip blank entries
+
+        # Upload each file and store its URL
+        uploaded_urls << Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
       end
 
+      # Merge the new images with existing ones, so we don’t overwrite previous uploads
       @event.update(images: (@event.images || []) + uploaded_urls)
 
       flash[:notice] = "Images uploaded successfully!"
