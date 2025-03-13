@@ -4,7 +4,7 @@
   <div class="event-form-card">
     <%= simple_form_for @event, url: event_images_path(@event), method: :post, html: { multipart: true } do |f| %>
       <div class="form-group">
-        <%= f.input :images, as: :file, input_html: { multiple: true, accept: "image/*", class: "form-styling" } %>
+        <%= f.input :images, as: :file, input_html: { multiple: true, accept: "image/*", name: "event[images][]", class: "form-styling" } %>
       </div>
       <div class="form-group">
         <%= f.button :submit, "Upload Images", class: "btn btn-primary" %>
