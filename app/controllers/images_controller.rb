@@ -41,23 +41,32 @@ class ImagesController < ApplicationController
   # end
 
   def create
-    uploaded_files = params[:event][:images] || [] # Ensure it's an array
+    uploaded_files = (params[:event][:images] || []).compact.reject(&:blank?) # Remove blank values
 
     if uploaded_files.any?
-      uploaded_urls = [] # Initialize an empty array to store URLs
+      uploaded_urls = []
 
       uploaded_files.each do |file|
-        next if file.blank? # Skip blank entries
-
-        # Upload each file and store its URL
-        uploaded_urls << Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
+        if file.respond_to?(:tempfile) && File.exist?(file.tempfile.path) # Ensure file exists
+          uploaded_urls << Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
+        else
+          Rails.logger.error "File not found: #{file.inspect}"
+        end
       end
 
-      # Merge the new images with existing ones, so we don’t overwrite previous uploads
-      @event.update(images: (@event.images || []) + uploaded_urls)
-
-      flash[:notice] = "Images uploaded successfully!"
-      redirect_to event_images_path(@event)
+      if uploaded_urls.any?
+        @event.images = (@event.images || []) + uploaded_urls
+        if @event.save
+          flash[:notice] = "Images uploaded successfully!"
+          redirect_to event_images_path(@event)
+        else
+          flash[:alert] = "Failed to save images."
+          render :new
+        end
+      else
+        flash[:alert] = "No valid images uploaded."
+        render :new
+      end
     else
       flash[:alert] = "No images selected"
       render :new
