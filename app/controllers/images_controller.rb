@@ -3,18 +3,11 @@ class ImagesController < ApplicationController
   before_action :event
 
   def index
-    @images = @event.images || [] # Ensure @images is always an array
+    @images = @event.images
   end
 
   def show
-    image_url = params[:image_url]
-
-    if @event.images.include?(image_url)
-      @image = image_url
-    else
-      flash[:alert] = "Image not found"
-      redirect_to event_images_path(@event)
-    end
+    @image = @event.images.find(params[:id])
   end
 
   def new
