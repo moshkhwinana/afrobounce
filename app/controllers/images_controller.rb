@@ -22,24 +22,6 @@ class ImagesController < ApplicationController
     # No need to initialize an Image object since Active Storage handles
   end
 
-  # def create
-  #   uploaded_files = params[:event][:images] # Ensure correct param structure
-
-  #   if uploaded_files.present?
-  #     uploaded_urls = uploaded_files.reject(&:blank?).map do |file| # Filter out blank files
-  #       Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
-  #     end
-
-  #     @event.update(images: (@event.images || []) + uploaded_urls)
-
-  #     flash[:notice] = "Images uploaded successfully!"
-  #     redirect_to event_images_path(@event)
-  #   else
-  #     flash[:alert] = "No images selected"
-  #     render :new
-  #   end
-  # end
-
   def create
     uploaded_files = (params[:event][:images] || []).compact.reject(&:blank?) # Remove blank values
 
@@ -74,34 +56,23 @@ class ImagesController < ApplicationController
   end
 
   def destroy
-    image_url = params[:image_url]
-
-    if @event.images.include?(image_url)
-      # Extract the public ID while keeping the folder structure
-      public_id = image_url.split('/').last.split('.').first
-      full_public_id = "afrobounce/events/#{@event.id}/#{public_id}"
-
-      Cloudinary::Uploader.destroy(full_public_id) # Delete from Cloudinary
-
-      # Remove the image URL from the event's images array
-      @event.update(images: @event.images - [image_url])
-
-      flash[:notice] = "Image deleted successfully"
+    image = @event.images.find_by(id: params[:id])
+    if image
+      image.purge # .purge = (active storage delete function)
+      flash[:notice] = 'Image deleted'
     else
-      flash[:alert] = "Image not found"
+      flash[:alert] = 'Image not found'
     end
-
-    redirect_to event_images_path(@event), status: :see_other
+    redirect_to event_images_path, status: :see_other
   end
 
   private
 
   def event
     @event = Event.find_by(id: params[:event_id])
+  end
 
-    if @event.nil?
-      flash[:alert] = "Event not found"
-      redirect_to events_path and return
-    end
+  def event_params
+    params.require(:event).permit(:name, :date, :cover_image, images: [])
   end
 end

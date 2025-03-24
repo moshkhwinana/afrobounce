@@ -2,8 +2,6 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
-gem "cloudinary", "~> 2.3"
-
 gem 'ruby-vips'
 
 gem 'active_storage_validations'
