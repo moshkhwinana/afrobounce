@@ -17,41 +17,16 @@ class ImagesController < ApplicationController
     end
   end
 
-
   def new
     # No need to initialize an Image object since Active Storage handles
   end
 
   def create
-    uploaded_files = (params[:event][:images] || []).compact.reject(&:blank?) # Remove blank values
-
-    if uploaded_files.any?
-      uploaded_urls = []
-
-      uploaded_files.each do |file|
-        if file.respond_to?(:tempfile) && File.exist?(file.tempfile.path) # Ensure file exists
-          uploaded_urls << Cloudinary::Uploader.upload(file, folder: "afrobounce/events/#{@event.id}")["secure_url"]
-        else
-          Rails.logger.error "File not found: #{file.inspect}"
-        end
-      end
-
-      if uploaded_urls.any?
-        @event.images = (@event.images || []) + uploaded_urls
-        if @event.save
-          flash[:notice] = "Images uploaded successfully!"
-          redirect_to event_images_path(@event)
-        else
-          flash[:alert] = "Failed to save images."
-          render :new
-        end
-      else
-        flash[:alert] = "No valid images uploaded."
-        render :new
-      end
+    if params[:images].present? # Ensure images were uploaded
+      @event.images.attach(params[:images]) # Attach images to the event
+      redirect_to event_images_path(@event), notice: "Images uploaded successfully!"
     else
-      flash[:alert] = "No images selected"
-      render :new
+      redirect_to event_images_path(@event), alert: "No images selected for upload."
     end
   end
 
@@ -69,7 +44,7 @@ class ImagesController < ApplicationController
   private
 
   def event
-    @event = Event.find_by(id: params[:event_id])
+    @event = Event.find(params[:event_id])
   end
 
   def event_params
