@@ -15,13 +15,14 @@ class ImagesController < ApplicationController
   end
 
   def create
-    if params[:images].present? # Ensure images were uploaded
-      @event.images.attach(params[:images]) # Attach images to the event
+    if params[:event] && params[:event][:images].present? # Ensure images were uploaded
+      @event.images.attach(params[:event][:images]) # Attach images to the event
       redirect_to event_images_path(@event), notice: "Images uploaded successfully!"
     else
-      redirect_to event_images_path(@event), alert: "No images selected for upload."
+      redirect_to event_images_path(@event), alert: "No images selected."
     end
   end
+
 
   def destroy
     image = @event.images.find_by(id: params[:id])
