@@ -1,8 +1,10 @@
 <!--<div class="image-show-container">-->
   <div class="image-full">
-    <%= image_tag @image, alt: 'Full-screen Image', class: 'fullscreen-image' %>
+    <%= image_tag @image, alt: "", class: "fullscreen-image", size: "300x200" %>
   </div>
 
   <%= link_to "Download Image", rails_blob_path(@image, disposition: "attachment"), class: "btn btn-primary" %>
+  <%= link_to "Back", event_images_path, class: "btn btn-primary"  %>
+
 
 <!--</div>-->
